@@ -29,16 +29,10 @@ export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPo
   }
 
   
-  const addOrRemoveJobPositions = (postionFuncId: number, checkInput: boolean) => {
-
-    getFilteredByPositionFunctionJobsList(checkInput, postionFuncId)
-  }
-
-  
   const JSXinputsChild = (childrenElement: PositionFunctionChildren, i: number) => (
 
     <S.JobsRowChild key={i}>
-      <S.Input onChange={ event => addOrRemoveJobPositions(childrenElement.id, event.target.checked) } type='checkbox' />
+      <S.Input onChange={ event => getFilteredByPositionFunctionJobsList(event.target.checked, childrenElement.id) } type='checkbox' />
       <S.Label>{childrenElement.name}</S.Label>
     </S.JobsRowChild>
   )

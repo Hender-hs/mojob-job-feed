@@ -20,7 +20,6 @@ interface JobsProvider {
 }
 
 
-
 export const JobsContext = createContext<JobsContext>({} as JobsContext)
 
 export const JobsProvider = ({children}: JobsProvider) => {
@@ -29,6 +28,7 @@ export const JobsProvider = ({children}: JobsProvider) => {
   const [positionsFunctions, setPositionsFunctions]             = useState<PositionFunction[] | []>([])
   const [jobsPostionsToFetchArray, setJobsPostionsToFetchArray] = useState<number[]>([])
   const [jobsPerPage, setJobsPerPage]                           = useState<string>('5')
+
 
   const getJobsList = async () => {
 
@@ -40,33 +40,28 @@ export const JobsProvider = ({children}: JobsProvider) => {
     setJobsList(response.data.results)
   }
 
-  useMemo(getJobsList, [jobsPerPage])
 
   const getJobsPositionFunctions = async () => {
 
     const response: PositionFunctionsResponse = await JobsApi.get('job/position-functions/?page=2&use_pagination=True')
+
     setPositionsFunctions(response.data.results)
   }
-
+  
+  
   const getFilteredByPositionFunctionJobsList = async (checkInput: boolean, JobPositionId: number) => {
 
-    
     let positionsToRequest = [...jobsPostionsToFetchArray, JobPositionId]
+    
+    if (!checkInput) positionsToRequest = positionsToRequest.filter( idInArray => idInArray !== JobPositionId )
 
-    if (!checkInput) {
-      positionsToRequest = positionsToRequest.filter( (e) => e !== JobPositionId )
-    }
-
-    const positionsAsParams = positionsToRequest.join('%2C')
-
-    const response: JobsListingsResponse = await JobsApi.get(
-      `/job/listings/?include_open=True&page=1&page_size=${jobsPerPage}&use_mojob_career_jobs_filter=True&position_functions=${positionsAsParams}&use_mojob_feed_filter=True&use_pagination=True`
-    )
-    setJobsList(response.data.results)
     setJobsPostionsToFetchArray(positionsToRequest)
   }
 
+
+  useMemo(getJobsList, [jobsPerPage, jobsPostionsToFetchArray])
   
+
   return (
     <JobsContext.Provider value={{getJobsList, getJobsPositionFunctions, getFilteredByPositionFunctionJobsList, jobsList, positionsFunctions, jobsPerPage, setJobsPerPage}} >
       {children}
