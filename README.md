@@ -21,9 +21,7 @@ If you did not use the given Vue project template, describe how can we run your 
 
 Do you have any other comments regarding your deliverable?
 
-  Yes, I do. 
-  There are few jobs positions that are matching with job listings in the API. 
-  So you may find it difficult to find a job with that position function.
+  Nothing
 
 Do you have any comments/feedback about the task we gave you?
 
