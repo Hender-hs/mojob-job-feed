@@ -1,7 +1,8 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useMemo, useState } from 'react'
-import { JobsApi } from '../../server'
-import { JobsListings, PositionFunction } from '../../utils/types/jobsTypes'
-import { JobsListingsResponse, PositionFunctionsResponse } from '../../utils/types/providerJobsTypes'
+import { createContext, Dispatch, ReactNode }               from 'react' 
+import { useContext, useMemo, useState, SetStateAction }    from 'react'
+import { JobsApi }                                          from '../../server'
+import { JobsListings, PositionFunction }                   from '../../utils/types/jobsTypes'
+import { JobsListingsResponse, PositionFunctionsResponse }  from '../../utils/types/providerJobsTypes'
 
 
 interface JobsContext {
@@ -31,8 +32,10 @@ export const JobsProvider = ({children}: JobsProvider) => {
 
   const getJobsList = async () => {
 
+    const positionsFunc = jobsPostionsToFetchArray.join('%2C')
+
     const response: JobsListingsResponse = await JobsApi.get(
-      `/job/listings/?include_open=False&page_size=${jobsPerPage}&use_mojob_feed_filter=False&use_pagination=True`
+      `/job/listings/?include_open=True&page=1&page_size=${jobsPerPage}&use_mojob_career_jobs_filter=True&position_functions=${positionsFunc}&use_mojob_feed_filter=True&use_pagination=True`
     )
     setJobsList(response.data.results)
   }
@@ -47,17 +50,20 @@ export const JobsProvider = ({children}: JobsProvider) => {
 
   const getFilteredByPositionFunctionJobsList = async (checkInput: boolean, JobPositionId: number) => {
 
-    const positionsToRequest = [...jobsPostionsToFetchArray, JobPositionId]
+    
+    let positionsToRequest = [...jobsPostionsToFetchArray, JobPositionId]
+
+    if (!checkInput) {
+      positionsToRequest = positionsToRequest.filter( (e) => e !== JobPositionId )
+    }
 
     const positionsAsParams = positionsToRequest.join('%2C')
 
     const response: JobsListingsResponse = await JobsApi.get(
-      `/job/listings/?include_open=False&page=1&page_size=25&position_functions=${positionsAsParams}&use_mojob_feed_filter=True&use_pagination=True`
+      `/job/listings/?include_open=True&page=1&page_size=${jobsPerPage}&use_mojob_career_jobs_filter=True&position_functions=${positionsAsParams}&use_mojob_feed_filter=True&use_pagination=True`
     )
     setJobsList(response.data.results)
     setJobsPostionsToFetchArray(positionsToRequest)
-
-    console.log(response.data.results)
   }
 
   

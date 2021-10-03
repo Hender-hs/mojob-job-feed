@@ -1,15 +1,15 @@
-import { useJobsListings } from '../../provider/jobs'
-import * as S from './styles'
+import { useJobsListings }  from '../../provider/jobs'
+import * as S               from './styles'
 
 export const PopUpJobsFilterPerPage = () => {
 
-  const { setJobsPerPage } = useJobsListings()
+  const { setJobsPerPage, jobsPerPage } = useJobsListings()
 
   return (
     <S.ContainerPerPage>
-      <S.P onClick={() => setJobsPerPage('5')} >5 per page</S.P>
-      <S.P onClick={() => setJobsPerPage('25')} >25 per page</S.P>
-      <S.P onClick={() => setJobsPerPage('100')} >Display all</S.P>
+      {jobsPerPage !== '5'    && <S.P onClick={() => setJobsPerPage('5')} >5 per page</S.P>}
+      {jobsPerPage !== '25'   && <S.P onClick={() => setJobsPerPage('25')} >25 per page</S.P>}
+      {jobsPerPage !== '100'  && <S.P onClick={() => setJobsPerPage('1000')} >Display all</S.P>}
     </S.ContainerPerPage>
   )
 }

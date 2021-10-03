@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ContainerPerPage = styled.div `
   width: 154px;
-  height: 132px;
+  height: 92px;
 
   position: absolute;
   left: 75.2vw;
