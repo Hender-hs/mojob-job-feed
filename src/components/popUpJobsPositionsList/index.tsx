@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useJobsListings } from '../../provider/jobs'
 import { PositionFunction, PositionFunctionChildren } from '../../utils/types/jobsTypes'
 import * as S from './styles'
@@ -18,16 +18,20 @@ export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPo
 
   const [checkedInputs, setCheckedInputs] = useState<number[]>([])
 
-  const { getFilteredJobsList } = useJobsListings()
+  const { getFilteredByPositionFunctionJobsList } = useJobsListings()
 
   const addAndRemoveCheckedInputs = (event: InputEvent, id: number) => {
     event.target.checked && setCheckedInputs( [...checkedInputs, id] )
     !event.target.checked && setCheckedInputs( checkedInputs.filter((e) => e !== id) )
   }
 
+  const addOrRemoveJobPositions = (postionFuncId: number, checkInput: boolean) => {
+    getFilteredByPositionFunctionJobsList(checkInput, postionFuncId)
+  }
+
   const Inputschild = (childrenElement: PositionFunctionChildren, i: number) => (
     <S.JobsRowChild key={i}>
-      <S.Input onChange={ event => !!event.target.checked && getFilteredJobsList(childrenElement.parent_id) } type='checkbox' />
+      <S.Input onChange={ event => addOrRemoveJobPositions(childrenElement.id, event.target.checked) } type='checkbox' />
       <S.Label>{childrenElement.name}</S.Label>
     </S.JobsRowChild>
   )

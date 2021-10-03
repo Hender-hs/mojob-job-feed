@@ -4,8 +4,6 @@ import { JobFilterPosition }      from '../../components/jobFilterPosition'
 import { JobFilterPerPage }       from '../../components/JobFilterPerPage'
 import MojobLogo                  from '../../assets/Active.svg'
 import { useEffect, useState }    from 'react'
-import { PopUpJobsPositionsList } from '../../components/popUpJobsPositionsList'
-import { PopUpJobsFilterPerPage } from '../../components/popUpJobsFilterPerPage'
 import { useJobsListings }        from '../../provider/jobs'
 import { JobsListings }           from '../../utils/types/jobsTypes'
 
@@ -36,13 +34,7 @@ export const Dashboard = () => {
       <S.SubBody>
         <S.Container>
           <S.FiltersSection>
-            <div onClick={() => setOpenPopUpJobFilterPosition(!openPopUpJobFilterPosition)} >
-              <JobFilterPosition />
-            </div>
-              <PopUpJobsPositionsList positionsJobs={positionsFunctions} openPopUp={openPopUpJobFilterPosition} />
-            {/* <div onClick={() => setOpenJobFilterPerPage(!openJobFilterPerPage)}>
-              <JobFilterPerPage />
-            </div> */}
+            <JobFilterPosition setOpenPopUpJobFilterPosition={setOpenPopUpJobFilterPosition} openPopUpJobFilterPosition={openPopUpJobFilterPosition} />
             <JobFilterPerPage setOpenJobFilterPerPage={setOpenJobFilterPerPage} openJobFilterPerPage={openJobFilterPerPage} />
           </S.FiltersSection>
           <S.JobsList>

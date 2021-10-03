@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Container } from '../popUpJobsPositionsList/styles'
 
 export const ContainerPerPage = styled.div `
   width: 154px;

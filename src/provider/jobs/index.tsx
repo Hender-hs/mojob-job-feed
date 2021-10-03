@@ -1,12 +1,13 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useMemo, useState } from 'react'
 import { JobsApi } from '../../server'
 import { JobsListings, PositionFunction } from '../../utils/types/jobsTypes'
+import { JobsListingsResponse, PositionFunctionsResponse } from '../../utils/types/providerJobsTypes'
 
 
 interface JobsContext {
   'getJobsList': () => void,
   'getJobsPositionFunctions': () => void,
-  'getFilteredJobsList': (param: number) => void,
+  'getFilteredByPositionFunctionJobsList': (checkInput: boolean, param: number) => void,
   'jobsList': JobsListings[] | null,
   'positionsFunctions': PositionFunction[] | [],
   'jobsPerPage': string,
@@ -17,35 +18,9 @@ interface JobsProvider {
   'children': ReactNode,
 }
 
-interface JobsListingsResponse {
-  'data': {
-    'count': string
-    'next': string
-    'previous': string
-    'results': JobsListings[]
-  }
-}
 
-interface JobsListingsResponse {
-  'data': {
-    'count': string
-    'next': string
-    'previous': string
-    'results': JobsListings[]
-  }
-}
-
-interface PositionFunctionsResponse {
-  'data': {
-    'count': string
-    'next': string
-    'previous': string
-    'results': PositionFunction[]
-  }
-}
 
 export const JobsContext = createContext<JobsContext>({} as JobsContext)
-
 
 export const JobsProvider = ({children}: JobsProvider) => {
 
@@ -65,13 +40,24 @@ export const JobsProvider = ({children}: JobsProvider) => {
   useMemo(getJobsList, [jobsPerPage])
 
   const getJobsPositionFunctions = async () => {
-    const response: PositionFunctionsResponse = await JobsApi.get('job/position-functions/')
+    const response: PositionFunctionsResponse = await JobsApi.get('job/position-functions/?page=2&use_pagination=True')
     setPositionsFunctions(response.data.results)
+    console.log(response)
+    
+    // while (!!response.data.next) {
+    //   const nextPageResponse: any = await JobsApi.get(response.data.next)
+    //   setPositionsFunctions([...positionsFunctions, nextPageResponse])
+    // }
   }
 
-  const getFilteredJobsList = async (newJobPositionsToFetch: number) => {
+  const getFilteredByPositionFunctionJobsList = async (checkInput: boolean, JobPositionId: number) => {
 
-    const positionsToRequest = [...jobsPostionsToFetchArray, newJobPositionsToFetch]
+    // if (!checkInput) {
+    //   const removedPosition: any = jobsList?.filter( (element: JobsListings) => element.job.position_function_id !== JobPositionId )
+    //   setJobsList(removedPosition)
+    // }
+
+    const positionsToRequest = [...jobsPostionsToFetchArray, JobPositionId]
 
     const positionsAsParams = positionsToRequest.join('%2C')
 
@@ -84,7 +70,7 @@ export const JobsProvider = ({children}: JobsProvider) => {
 
   
   return (
-    <JobsContext.Provider value={{getJobsList, getJobsPositionFunctions, getFilteredJobsList, jobsList, positionsFunctions, jobsPerPage, setJobsPerPage}} >
+    <JobsContext.Provider value={{getJobsList, getJobsPositionFunctions, getFilteredByPositionFunctionJobsList, jobsList, positionsFunctions, jobsPerPage, setJobsPerPage}} >
       {children}
     </JobsContext.Provider>
   )
