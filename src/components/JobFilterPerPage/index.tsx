@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
-import { useJobsListings } from '../../provider/jobs'
-import { PopUpJobsFilterPerPage } from '../popUpJobsFilterPerPage'
-import * as S from './styles'
+import { useJobsListings }          from '../../provider/jobs'
+import { PopUpJobsFilterPerPage }   from '../popUpJobsFilterPerPage'
+import * as S                       from './styles'
 
 interface JobFilterPerPageProps {
   'openJobFilterPerPage': boolean,

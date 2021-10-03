@@ -16,6 +16,7 @@ export interface JobsListings {
   'job': {
     'id': number,
     'due_date': number,
+    'title': string,
     'unit': {
       'name': string
     },

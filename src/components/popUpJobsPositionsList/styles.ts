@@ -21,7 +21,7 @@ export const Container = styled.div<PopUpJobsPosition> `
   align-items: flex-start;
 
   overflow-y: scroll;
-  opacity: ${({openPopUp}) => !!openPopUp ? 1 : 0};
+  visibility: ${({openPopUp}) => !!openPopUp ? 'visible' : 'hidden'};
 `
 
 export const P = styled.p `

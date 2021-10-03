@@ -10,18 +10,21 @@ import { JobsListings }           from '../../utils/types/jobsTypes'
 export const Dashboard = () => {
 
   const [openPopUpJobFilterPosition, setOpenPopUpJobFilterPosition] = useState<boolean>(false)
+  const [openJobFilterPerPage, setOpenJobFilterPerPage]             = useState<boolean>(false)
 
-  const [openJobFilterPerPage, setOpenJobFilterPerPage] = useState<boolean>(false)
-
+  
   const { getJobsList, getJobsPositionFunctions, jobsList, positionsFunctions } = useJobsListings()
 
-  const printJobsCards = (element: JobsListings, index: number) => (
+  
+  const JSXprintJobsCards = (element: JobsListings, index: number) => (
+
     <S.CardDiv key={index}>
       <JobCard jobContent={element} />
     </S.CardDiv>
   )
 
   useEffect( () => {
+    
     !jobsList && getJobsList()
     !positionsFunctions?.length && getJobsPositionFunctions()
   })
@@ -38,7 +41,7 @@ export const Dashboard = () => {
             <JobFilterPerPage setOpenJobFilterPerPage={setOpenJobFilterPerPage} openJobFilterPerPage={openJobFilterPerPage} />
           </S.FiltersSection>
           <S.JobsList>
-            {!!jobsList && jobsList.map(printJobsCards)}
+            {!!jobsList && jobsList.map(JSXprintJobsCards)}
           </S.JobsList>
         </S.Container>
       </S.SubBody>

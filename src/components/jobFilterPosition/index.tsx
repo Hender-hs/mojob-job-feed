@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
-import { useJobsListings } from '../../provider/jobs'
-import { PopUpJobsPositionsList } from '../popUpJobsPositionsList'
-import * as S from './styles'
+import { useJobsListings }          from '../../provider/jobs'
+import { PopUpJobsPositionsList }   from '../popUpJobsPositionsList'
+import * as S                       from './styles'
 
 interface JobFilterPositionProps {
   'setOpenPopUpJobFilterPosition': Dispatch<SetStateAction<boolean>>,
