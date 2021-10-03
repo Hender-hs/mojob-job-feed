@@ -27,11 +27,10 @@ export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPo
     event.target.checked && setCheckedInputs( [...checkedInputs, id] )
     !event.target.checked && setCheckedInputs( checkedInputs.filter((e) => e !== id) )
   }
-
   
-  const JSXinputsChild = (childrenElement: PositionFunctionChildren, i: number) => (
+  const JSXinputsChild = (childrenElement: PositionFunctionChildren, index: number) => (
 
-    <S.JobsRowChild key={i}>
+    <S.JobsRowChild checkedInput={checkedInputs.includes(index)} key={index}>
       <S.Input onChange={ event => getFilteredByPositionFunctionJobsList(event.target.checked, childrenElement.id) } type='checkbox' />
       <S.Label>{childrenElement.name}</S.Label>
     </S.JobsRowChild>
@@ -43,7 +42,7 @@ export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPo
     <S.JobsRow key={i}>
       <S.Input onChange={event => addAndRemoveCheckedInputs(event, i)} type='checkbox' />
       <S.Label>{element.name_en}</S.Label>
-      {checkedInputs.includes(i) && positionsJobs[i].children.map(JSXinputsChild)}
+      {positionsJobs[i].children.map( (elChild: PositionFunctionChildren) => JSXinputsChild(elChild, i) )}
     </S.JobsRow>
   )
 
