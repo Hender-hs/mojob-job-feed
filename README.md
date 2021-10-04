@@ -15,7 +15,7 @@ If you did not use the given Vue project template, describe how can we run your 
 
   If you don't have yarn installed yet, you need to run: npm install --global yarn.
 
-  1. run: yarn; to download the dependencies.
+  1. run: yarn; to download the dependencies, into the app repository.
 
   2. run: yarn start or npm start; to start the react app.
 
