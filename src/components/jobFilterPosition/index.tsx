@@ -4,22 +4,23 @@ import { PopUpJobsPositionsList }   from '../popUpJobsPositionsList'
 import * as S                       from './styles'
 
 interface JobFilterPositionProps {
-  'setOpenPopUpJobFilterPosition': Dispatch<SetStateAction<boolean>>,
-  'openPopUpJobFilterPosition': boolean,
+  'setOpenPopUpJobFilterPositionPopUpBox': Dispatch<SetStateAction<boolean>>,
+  'openPopUpJobFilterPositionPopUpBox': boolean,
 }
 
-export const JobFilterPosition = ({setOpenPopUpJobFilterPosition, openPopUpJobFilterPosition}: JobFilterPositionProps) => {
+export const JobFilterPosition = ({
+  setOpenPopUpJobFilterPositionPopUpBox, openPopUpJobFilterPositionPopUpBox}: JobFilterPositionProps) => {
 
   const { positionsFunctions } = useJobsListings()
 
   return (
     <>
-      <div onClick={() => setOpenPopUpJobFilterPosition(!openPopUpJobFilterPosition)} >
+      <div onClick={() => setOpenPopUpJobFilterPositionPopUpBox(!openPopUpJobFilterPositionPopUpBox)} >
         <S.Container>
           <S.P> filter by position <S.Arrow size={20} /> </S.P>
         </S.Container>
       </div>
-      <PopUpJobsPositionsList positionsJobs={positionsFunctions} openPopUp={openPopUpJobFilterPosition} />
+      <PopUpJobsPositionsList positionsJobs={positionsFunctions} openPopUp={openPopUpJobFilterPositionPopUpBox} />
     </>
   )
 }

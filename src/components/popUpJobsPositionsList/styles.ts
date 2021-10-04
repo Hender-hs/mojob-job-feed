@@ -6,7 +6,7 @@ interface PopUpJobsPosition {
 }
 
 interface PopUpJobsPositionChildrenProps {
-  'checkedInput': boolean
+  'openChildInput': boolean
 }
 
 export const Container = styled.div<PopUpJobsPosition> `
@@ -62,5 +62,5 @@ export const JobsRowChild = styled.div<PopUpJobsPositionChildrenProps> `
 
   margin: 10px 0 5px 25px;
 
-  display: ${({checkedInput}) => !!checkedInput ? 'block' : 'none'};
+  display: ${({openChildInput}) => !!openChildInput ? 'block' : 'none'};
 `

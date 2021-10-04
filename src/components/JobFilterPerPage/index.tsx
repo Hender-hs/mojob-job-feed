@@ -4,20 +4,20 @@ import { PopUpJobsFilterPerPage }   from '../popUpJobsFilterPerPage'
 import * as S                       from './styles'
 
 interface JobFilterPerPageProps {
-  'openJobFilterPerPage': boolean,
-  'setOpenJobFilterPerPage': Dispatch<SetStateAction<boolean>>
+  'openJobFilterPerPagePopUpBox': boolean,
+  'setOpenJobFilterPerPagePopUpBox': Dispatch<SetStateAction<boolean>>
 }
 
-export const JobFilterPerPage = ({openJobFilterPerPage, setOpenJobFilterPerPage}: JobFilterPerPageProps) => {
+export const JobFilterPerPage = ({openJobFilterPerPagePopUpBox, setOpenJobFilterPerPagePopUpBox}: JobFilterPerPageProps) => {
 
-  const { jobsPerPage } = useJobsListings()
+  const { jobsPerPageCount } = useJobsListings()
 
   return (
-    <div onClick={() => setOpenJobFilterPerPage(!openJobFilterPerPage)}>
+    <div onClick={() => setOpenJobFilterPerPagePopUpBox(!openJobFilterPerPagePopUpBox)}>
       <S.Container2>
-        <S.P2> {jobsPerPage !== '1000' ? jobsPerPage : 'all'} Per Page <S.Arrow size={20} /> </S.P2>
+        <S.P2> {jobsPerPageCount !== '1000' ? jobsPerPageCount : 'all'} Per Page <S.Arrow size={20} /> </S.P2>
       </S.Container2>
-      {!!openJobFilterPerPage && <PopUpJobsFilterPerPage />}
+      {!!openJobFilterPerPagePopUpBox && <PopUpJobsFilterPerPage />}
     </div>
   )
 }

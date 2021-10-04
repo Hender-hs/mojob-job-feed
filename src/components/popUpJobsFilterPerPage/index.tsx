@@ -3,13 +3,13 @@ import * as S               from './styles'
 
 export const PopUpJobsFilterPerPage = () => {
 
-  const { setJobsPerPage, jobsPerPage } = useJobsListings()
+  const { setJobsPerPageCount, jobsPerPageCount } = useJobsListings()
 
   return (
     <S.ContainerPerPage>
-      {jobsPerPage !== '5'    && <S.P onClick={() => setJobsPerPage('5')} >5 per page</S.P>}
-      {jobsPerPage !== '25'   && <S.P onClick={() => setJobsPerPage('25')} >25 per page</S.P>}
-      {jobsPerPage !== '1000'  && <S.P onClick={() => setJobsPerPage('1000')} >Display all</S.P>}
+      {jobsPerPageCount !== '5'    && <S.P onClick={() => setJobsPerPageCount('5')} >5 per page</S.P>}
+      {jobsPerPageCount !== '25'   && <S.P onClick={() => setJobsPerPageCount('25')} >25 per page</S.P>}
+      {jobsPerPageCount !== '1000'  && <S.P onClick={() => setJobsPerPageCount('1000')} >Display all</S.P>}
     </S.ContainerPerPage>
   )
 }

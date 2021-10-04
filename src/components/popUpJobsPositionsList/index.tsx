@@ -10,16 +10,16 @@ interface InputEvent {
   }
 }
 
-interface PopUpJobsPosition {
+interface PopUpJobsPositionProps {
   'openPopUp': boolean,
   'positionsJobs': PositionFunction[]
 }
 
 
-export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPosition) => {
+export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPositionProps) => {
 
   const [checkedInputs, setCheckedInputs]         = useState<number[]>([])
-  const { getFilteredByPositionFunctionJobsList } = useJobsListings()
+  const { getJobsFilteredByPositionFunctions } = useJobsListings()
 
   
   const addAndRemoveCheckedInputs = (event: InputEvent, id: number) => {
@@ -28,28 +28,33 @@ export const PopUpJobsPositionsList = ({ positionsJobs, openPopUp }: PopUpJobsPo
     !event.target.checked && setCheckedInputs( checkedInputs.filter((e) => e !== id) )
   }
   
-  const JSXinputsChild = (childrenElement: PositionFunctionChildren, index: number) => (
+  const JSXpositionFunctionsChildren = (childrenElement: PositionFunctionChildren, parentIndex: number, childIndex: number) => (
 
-    <S.JobsRowChild checkedInput={checkedInputs.includes(index)} key={index}>
-      <S.Input onChange={ event => getFilteredByPositionFunctionJobsList(event.target.checked, childrenElement.id) } type='checkbox' />
+    <S.JobsRowChild openChildInput={checkedInputs.includes(parentIndex)} key={childIndex}>
+      <S.Input onChange={ event => getJobsFilteredByPositionFunctions(event.target.checked, childrenElement.id) } type='checkbox' />
       <S.Label>{childrenElement.name}</S.Label>
     </S.JobsRowChild>
   )
   
 
-  const JSXinputsPositions = (element: PositionFunction, i: number) => (
+  const JSXpostionFunctionsList = (element: PositionFunction, parentIndex: number) => (
     
-    <S.JobsRow key={i}>
-      <S.Input onChange={event => addAndRemoveCheckedInputs(event, i)} type='checkbox' />
+    <S.JobsRow key={parentIndex}>
+      <S.Input onChange={event => addAndRemoveCheckedInputs(event, parentIndex)} type='checkbox' />
       <S.Label>{element.name_en}</S.Label>
-      {positionsJobs[i].children.map( (elChild: PositionFunctionChildren) => JSXinputsChild(elChild, i) )}
+      {
+        positionsJobs[parentIndex].children.map( (child: PositionFunctionChildren, childIndex: number) => (
+          JSXpositionFunctionsChildren(child, parentIndex, childIndex) 
+          )
+        )
+      }
     </S.JobsRow>
   )
 
   
   return (
     <S.Container openPopUp={openPopUp} >
-      {!!positionsJobs.length && positionsJobs.map(JSXinputsPositions)}
+      {!!positionsJobs.length && positionsJobs.map(JSXpostionFunctionsList)}
     </S.Container>
   )
 }

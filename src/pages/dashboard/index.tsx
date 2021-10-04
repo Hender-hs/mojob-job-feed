@@ -24,7 +24,6 @@ export const Dashboard = () => {
   )
 
   useEffect( () => {
-    
     !jobsList && getJobsList()
     !positionsFunctions?.length && getJobsPositionFunctions()
   })
@@ -37,8 +36,14 @@ export const Dashboard = () => {
       <S.SubBody>
         <S.Container>
           <S.FiltersSection>
-            <JobFilterPosition setOpenPopUpJobFilterPosition={setOpenPopUpJobFilterPosition} openPopUpJobFilterPosition={openPopUpJobFilterPosition} />
-            <JobFilterPerPage setOpenJobFilterPerPage={setOpenJobFilterPerPage} openJobFilterPerPage={openJobFilterPerPage} />
+            <JobFilterPosition 
+              setOpenPopUpJobFilterPositionPopUpBox={setOpenPopUpJobFilterPosition} 
+              openPopUpJobFilterPositionPopUpBox={openPopUpJobFilterPosition} 
+            />
+            <JobFilterPerPage 
+              setOpenJobFilterPerPagePopUpBox={setOpenJobFilterPerPage} 
+              openJobFilterPerPagePopUpBox={openJobFilterPerPage} 
+            />
           </S.FiltersSection>
           <S.JobsList>
             {!!jobsList && jobsList.map(JSXprintJobsCards)}

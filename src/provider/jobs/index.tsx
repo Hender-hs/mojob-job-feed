@@ -8,11 +8,11 @@ import { JobsListingsResponse, PositionFunctionsResponse }  from '../../utils/ty
 interface JobsContext {
   'getJobsList': () => void,
   'getJobsPositionFunctions': () => void,
-  'getFilteredByPositionFunctionJobsList': (checkInput: boolean, param: number) => void,
+  'getJobsFilteredByPositionFunctions': (checkInput: boolean, param: number) => void,
   'jobsList': JobsListings[] | null,
   'positionsFunctions': PositionFunction[] | [],
-  'jobsPerPage': string,
-  'setJobsPerPage': Dispatch<SetStateAction<string>>
+  'jobsPerPageCount': string,
+  'setJobsPerPageCount': Dispatch<SetStateAction<string>>
 }
 
 interface JobsProvider {
@@ -26,16 +26,16 @@ export const JobsProvider = ({children}: JobsProvider) => {
 
   const [jobsList, setJobsList]                                 = useState<JobsListings[] | null>(null)
   const [positionsFunctions, setPositionsFunctions]             = useState<PositionFunction[] | []>([])
-  const [jobsPostionsToFetchArray, setJobsPostionsToFetchArray] = useState<number[]>([])
-  const [jobsPerPage, setJobsPerPage]                           = useState<string>('5')
+  const [jobsPostionsToFetch, setJobsPostionsToFetch]           = useState<number[]>([])
+  const [jobsPerPageCount, setJobsPerPageCount]                 = useState<string>('5')
 
 
   const getJobsList = async () => {
 
-    const positionsFunc = jobsPostionsToFetchArray.join('%2C')
+    const positionsFunc = jobsPostionsToFetch.join('%2C')
 
     const response: JobsListingsResponse = await JobsApi.get(
-      `/job/listings/?include_open=True&page=1&page_size=${jobsPerPage}&use_mojob_career_jobs_filter=True&position_functions=${positionsFunc}&use_mojob_feed_filter=True&use_pagination=True`
+      `/job/listings/?include_open=True&page=1&page_size=${jobsPerPageCount}&use_mojob_career_jobs_filter=True&position_functions=${positionsFunc}&use_mojob_feed_filter=True&use_pagination=True`
     )
     setJobsList(response.data.results)
   }
@@ -49,21 +49,26 @@ export const JobsProvider = ({children}: JobsProvider) => {
   }
   
   
-  const getFilteredByPositionFunctionJobsList = async (checkInput: boolean, JobPositionId: number) => {
+  const getJobsFilteredByPositionFunctions = async (checkedInput: boolean, JobPositionId: number) => {
 
-    let positionsToRequest = [...jobsPostionsToFetchArray, JobPositionId]
+    let positionsToRequest = [...jobsPostionsToFetch, JobPositionId]
     
-    if (!checkInput) positionsToRequest = positionsToRequest.filter( idInArray => idInArray !== JobPositionId )
+    if (!checkedInput) positionsToRequest = positionsToRequest.filter( idInArray => idInArray !== JobPositionId )
 
-    setJobsPostionsToFetchArray(positionsToRequest)
+    setJobsPostionsToFetch(positionsToRequest)
   }
 
 
-  useMemo(getJobsList, [jobsPerPage, jobsPostionsToFetchArray])
+  useMemo(getJobsList, [jobsPerPageCount, jobsPostionsToFetch])
   
 
   return (
-    <JobsContext.Provider value={{getJobsList, getJobsPositionFunctions, getFilteredByPositionFunctionJobsList, jobsList, positionsFunctions, jobsPerPage, setJobsPerPage}} >
+    <JobsContext.Provider 
+      value={{
+        getJobsList, getJobsPositionFunctions, getJobsFilteredByPositionFunctions, 
+        jobsList, positionsFunctions, jobsPerPageCount, setJobsPerPageCount
+      }} 
+    >
       {children}
     </JobsContext.Provider>
   )
